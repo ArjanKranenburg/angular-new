@@ -1,45 +1,58 @@
-import { element, by } from 'protractor';
-// import { CharacterDetails } from './character-details.po';
+import { browser, by, element, ElementFinder } from 'protractor';
 
-module.exports = {
-    get input() {
-        return element(by.id('query'));
-    },
-    get searchBtn() {
-        return element(by.css('button'));
-    },
-    get characterRadioBtn() {
-        return element(by.id('people'));
-    },
-    get planetRadioBtn() {
-        return element(by.id('planets'));
-    },
-    get firstCharacterName() {
-        return element(by.css('app-character h6'));
-    },
+export class SearchFormPage {
+  async navigateTo(): Promise<unknown> {
+      return browser.get('http://localhost:4401/');
+  }
 
-    get firstCharacter() {
-        return element.all(by.css('app-character')).first();
-    },
-    get firstCharacterGender() {
-        return this.firstCharacter
-            .all(by.css('div.row')).first()
-            .element(by.css('div:nth-child(2)'));
-     },
-    get firstCharacterBirthYear() {
-        return this.firstCharacter
-            .all(by.css('div.row')).get(1)
-            .element(by.css('div:nth-child(2)'));
-    },
-    get firstCharacterEyeColor() {
-        return this.firstCharacter
-            .all(by.css('div.row')).get(2)
-            .element(by.css('div:nth-child(2)'));
-    },
-    get firstCharacterSkinColor() {
-        return this.firstCharacter
-            .all(by.css('div.row')).get(3)
-            .element(by.css('div:nth-child(2)'));
-    }
-   
-};
+  async searchForCharacter( searchText: string) {
+      this.characterRadioBtn.click();
+      this.inputField.sendKeys(searchText);
+      this.searchBtn.click();  
+  }
+
+  // Page fields
+  get searchBtn() {
+      return element(by.css('button'));
+  }
+  get inputField() {
+      return element(by.id('query'));
+  }
+  get characterRadioBtn() {
+      return element(by.id('people'));
+  }
+  get planetRadioBtn() {
+      return element(by.id('planets'));
+  }
+
+  get firstCharacter() {
+      return element.all(by.css('app-character')).first();
+  }
+
+  getCharacterDetailItem(characterElement:ElementFinder, detailItemNr:number) {
+      return characterElement.all(by.css('div.row')).get(detailItemNr);
+  }
+
+  getDetailValue(characterDetailItemElement:ElementFinder) {
+    return characterDetailItemElement
+      .element(by.css('div:nth-child(2)'))
+      .getAttribute('innerText');
+  }
+
+  get firstCharacterGender() {
+      return this.getDetailValue(this.getCharacterDetailItem(this.firstCharacter, 0));
+  }
+  get firstCharacterBirthYear() {
+    return this.getDetailValue(this.getCharacterDetailItem(this.firstCharacter, 1));
+  }
+  get firstCharacterEyeColor() {
+    return this.getDetailValue(this.getCharacterDetailItem(this.firstCharacter, 2));
+  }
+  get firstCharacterSkinColor() {
+    return this.getDetailValue(this.getCharacterDetailItem(this.firstCharacter, 3));
+  }
+
+  get errorMessage() {
+    return element.all(by.css('div.col > div')).first().getAttribute('innerText');
+  }
+}
