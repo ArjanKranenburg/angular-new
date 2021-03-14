@@ -10,28 +10,38 @@ const { SpecReporter, StacktraceOption } = require('jasmine-spec-reporter');
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-    './src/**/*.e2e-spec.ts'
+    './features/**/*.feature'
   ],
   capabilities: {
-    browserName: 'chrome'
+    browserName: 'chrome',
+    args: ['no-sandbox']
   },
   directConnect: true,
   SELENIUM_PROMISE_MANAGER: false,
-  baseUrl: 'http://localhost:4200/',
-  framework: 'jasmine',
+  baseUrl: 'http://localhost:4401/',
+  framework: 'custom',
+  frameworkPath: '../node_modules/protractor-cucumber-framework',
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
     print: function() {}
   },
+  cucumberOpts: {
+    require: [
+      './steps/**/*.steps.ts'
+    // ],
+    // format: [
+    //   'json:test-reports/cucumber-test-results.json'
+    ]
+  },
   onPrepare() {
     require('ts-node').register({
       project: require('path').join(__dirname, './tsconfig.json')
     });
-    jasmine.getEnv().addReporter(new SpecReporter({
-      spec: {
-        displayStacktrace: StacktraceOption.PRETTY
-      }
-    }));
+    // jasmine.getEnv().addReporter(new SpecReporter({
+    //   spec: {
+    //     displayStacktrace: StacktraceOption.PRETTY
+    //   }
+    // }));
   }
 };
