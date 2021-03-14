@@ -32,3 +32,7 @@ Then('I see its Gender, Birth year, Eye color, and Skin color', { timeout: 60 * 
 Then('a {string} message is shown', { timeout: 60 * 1000 }, async (message:string) => {
     await chai.expect(searchPage.errorMessage).to.eventually.be.equal(message);
 });
+
+Then('I see {int} characters', { timeout: 60 * 1000 }, async (numberOfCharacters:number) => {
+    await chai.expect(searchPage.characters).to.eventually.have.length(numberOfCharacters);
+});

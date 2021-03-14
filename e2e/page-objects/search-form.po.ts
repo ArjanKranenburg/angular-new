@@ -25,8 +25,12 @@ export class SearchFormPage {
       return element(by.id('planets'));
   }
 
+  get characters() {
+    return element.all(by.css('app-character'));
+  }
+
   get firstCharacter() {
-      return element.all(by.css('app-character')).first();
+      return this.characters.first();
   }
 
   getCharacterDetailItem(characterElement:ElementFinder, detailItemNr:number) {
