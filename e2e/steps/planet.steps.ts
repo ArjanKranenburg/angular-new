@@ -16,13 +16,25 @@ When('I search for planet {string}', { timeout: 60 * 1000 }, async (name: string
     
     await browser.sleep(2000);
 });
-  
+
+When('I leave the search-box and use it to search for a planet', { timeout: 60 * 1000 }, async () => {
+    await searchPage.planetRadioBtn.click();
+    await searchPage.searchBtn.click();  
+    await browser.sleep(2000);
+});
+
 Then('I see its Population, Climate and Gravity', { timeout: 60 * 1000 }, async () => {
     await chai.expect(searchPage.firstPlanetPopulation).to.eventually.be.a('string');
     await chai.expect(searchPage.firstPlanetClimate).to.eventually.be.a('string');
     await chai.expect(searchPage.firstPlanetGravity).to.eventually.be.a('string');    
 });
 
-Then('I see {int} planets', { timeout: 60 * 1000 }, async (numberOfPlanets:number) => {
+Then('the planet details are also shown', { timeout: 60 * 1000 }, async () => {
+    await chai.expect(searchPage.characters).to.eventually.have.lengthOf.at.least(1);
+});
+
+
+Then('I see {int} planet(s)', { timeout: 60 * 1000 }, async (numberOfPlanets:number) => {
     await chai.expect(searchPage.planets).to.eventually.have.length(numberOfPlanets);
 });
+

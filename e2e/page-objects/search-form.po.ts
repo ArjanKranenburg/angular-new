@@ -7,15 +7,17 @@ export class SearchFormPage {
 
   async searchForCharacter( searchText: string) {
       this.characterRadioBtn.click();
+      this.inputField.clear()
       this.inputField.sendKeys(searchText);
       this.searchBtn.click();  
   }
 
   async searchForPlanet( searchText: string) {
-    this.planetRadioBtn.click();
-    this.inputField.sendKeys(searchText);
-    this.searchBtn.click();  
-}
+      this.planetRadioBtn.click();
+      this.inputField.clear()
+      this.inputField.sendKeys(searchText);
+      this.searchBtn.click();  
+  }
 
   // Page fields
   get searchBtn() {

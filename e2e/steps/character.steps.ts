@@ -25,6 +25,10 @@ Then('I see its Gender, Birth year, Eye color, and Skin color', { timeout: 60 * 
     await chai.expect(searchPage.firstCharacterSkinColor).to.eventually.be.a('string');
 });
 
-Then('I see {int} characters', { timeout: 60 * 1000 }, async (numberOfCharacters:number) => {
+Then('the (character )details are also shown', { timeout: 60 * 1000 }, async () => {
+    await chai.expect(searchPage.characters).to.eventually.have.lengthOf.at.least(1);
+});
+
+Then('I see {int} character(s)', { timeout: 60 * 1000 }, async (numberOfCharacters:number) => {
     await chai.expect(searchPage.characters).to.eventually.have.length(numberOfCharacters);
 });
