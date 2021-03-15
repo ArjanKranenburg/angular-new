@@ -11,6 +11,12 @@ export class SearchFormPage {
       this.searchBtn.click();  
   }
 
+  async searchForPlanet( searchText: string) {
+    this.planetRadioBtn.click();
+    this.inputField.sendKeys(searchText);
+    this.searchBtn.click();  
+}
+
   // Page fields
   get searchBtn() {
       return element(by.css('button'));
@@ -25,6 +31,7 @@ export class SearchFormPage {
       return element(by.id('planets'));
   }
 
+  // Characters
   get characters() {
     return element.all(by.css('app-character'));
   }
@@ -33,27 +40,48 @@ export class SearchFormPage {
       return this.characters.first();
   }
 
-  getCharacterDetailItem(characterElement:ElementFinder, detailItemNr:number) {
-      return characterElement.all(by.css('div.row')).get(detailItemNr);
-  }
-
-  getDetailValue(characterDetailItemElement:ElementFinder) {
-    return characterDetailItemElement
-      .element(by.css('div:nth-child(2)'))
-      .getAttribute('innerText');
-  }
-
   get firstCharacterGender() {
-      return this.getDetailValue(this.getCharacterDetailItem(this.firstCharacter, 0));
+      return this.getDetailValue(this.getDetailItem(this.firstCharacter, 0));
   }
   get firstCharacterBirthYear() {
-    return this.getDetailValue(this.getCharacterDetailItem(this.firstCharacter, 1));
+    return this.getDetailValue(this.getDetailItem(this.firstCharacter, 1));
   }
   get firstCharacterEyeColor() {
-    return this.getDetailValue(this.getCharacterDetailItem(this.firstCharacter, 2));
+    return this.getDetailValue(this.getDetailItem(this.firstCharacter, 2));
   }
   get firstCharacterSkinColor() {
-    return this.getDetailValue(this.getCharacterDetailItem(this.firstCharacter, 3));
+    return this.getDetailValue(this.getDetailItem(this.firstCharacter, 3));
+  }
+
+  // Planets
+  get planets() {
+    return element.all(by.css('app-planet'));
+  }
+
+  get firstPlanet() {
+    return this.planets.first();
+  }
+
+  get firstPlanetPopulation() {
+      return this.getDetailValue(this.getDetailItem(this.firstPlanet, 0));
+  }
+  get firstPlanetClimate() {
+    return this.getDetailValue(this.getDetailItem(this.firstPlanet, 1));
+  }
+  get firstPlanetGravity() {
+    return this.getDetailValue(this.getDetailItem(this.firstPlanet, 2));
+  }
+
+
+  // General
+  getDetailItem(resultElement:ElementFinder, detailItemNr:number) {
+    return resultElement.all(by.css('div.row')).get(detailItemNr);
+  }
+
+  getDetailValue(detailItemElement:ElementFinder) {
+    return detailItemElement
+      .element(by.css('div:nth-child(2)'))
+      .getAttribute('innerText');
   }
 
   get errorMessage() {

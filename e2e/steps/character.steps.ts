@@ -1,5 +1,5 @@
 const { Given, When, Then, BeforeAll } = require('@cucumber/cucumber');
-const { browser } = require('protractor');
+const { browser, protractor } = require('protractor');
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
 
@@ -11,14 +11,16 @@ BeforeAll(async function(){
     searchPage = new SearchFormPage();
 });
 
-Given('I open the Star Wars Search web application', { timeout: 60 * 1000 }, async () => {
-    await searchPage.navigateTo();
-});
-
 When('I search for character {string}', { timeout: 60 * 1000 }, async (name: string) => {
     await searchPage.searchForCharacter(name);
     
     await browser.sleep(2000);
+});
+
+When('I search for character {string} and hit enter', { timeout: 60 * 1000 }, async (name: string) => {
+    await searchPage.characterRadioBtn.click();
+    await searchPage.inputField.sendKeys(name);
+    await searchPage.inputField.sendKeys(protractor.Key.ENTER);
 });
 
 Then('I see its Gender, Birth year, Eye color, and Skin color', { timeout: 60 * 1000 }, async () => {
@@ -27,10 +29,6 @@ Then('I see its Gender, Birth year, Eye color, and Skin color', { timeout: 60 * 
     await chai.expect(searchPage.firstCharacterBirthYear).to.eventually.be.a('string');
     await chai.expect(searchPage.firstCharacterEyeColor).to.eventually.be.a('string');    
     await chai.expect(searchPage.firstCharacterSkinColor).to.eventually.be.a('string');
-});
-
-Then('a {string} message is shown', { timeout: 60 * 1000 }, async (message:string) => {
-    await chai.expect(searchPage.errorMessage).to.eventually.be.equal(message);
 });
 
 Then('I see {int} characters', { timeout: 60 * 1000 }, async (numberOfCharacters:number) => {
