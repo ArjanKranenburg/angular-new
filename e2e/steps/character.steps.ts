@@ -17,12 +17,6 @@ When('I search for character {string}', { timeout: 60 * 1000 }, async (name: str
     await browser.sleep(2000);
 });
 
-When('I search for character {string} and hit enter', { timeout: 60 * 1000 }, async (name: string) => {
-    await searchPage.characterRadioBtn.click();
-    await searchPage.inputField.sendKeys(name);
-    await searchPage.inputField.sendKeys(protractor.Key.ENTER);
-});
-
 Then('I see its Gender, Birth year, Eye color, and Skin color', { timeout: 60 * 1000 }, async () => {
  
     await chai.expect(searchPage.firstCharacterGender).to.eventually.be.a('string');

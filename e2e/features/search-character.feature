@@ -10,11 +10,6 @@ Feature: Search for a Star Wars character
         When I search for character 'darth'
         Then I see 2 characters
 
-    Scenario: Search a character with <enter>
-        Given I open the Star Wars Search web application
-        When I search for character 'Solo' and hit enter
-        Then I see its Gender, Birth year, Eye color, and Skin color
-
     Scenario: Search for an unknown character results in "Not found"
         Given I open the Star Wars Search web application
         When I search for character 'Spock'
