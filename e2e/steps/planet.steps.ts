@@ -10,17 +10,17 @@ import { DataTable } from '@cucumber/cucumber';
 
 let searchPage: SearchFormPage;
 
-BeforeAll(async function(){
+BeforeAll(async function() {
     searchPage = new SearchFormPage();
 });
 
-When('I search for planet {string}', { timeout: 60 * 1000 }, async (name: string) => {
+When('I search for planet {string}', { timeout: 60 * 1000 }, async function(name: string) {
     await searchPage.searchForPlanet(name);
     
     await browser.sleep(2000);
 });
 
-When('I search for planet {string} and hit enter', { timeout: 60 * 1000 }, async (name: string) => {
+When('I search for planet {string} and hit enter', { timeout: 60 * 1000 }, async function(name: string) {
     await searchPage.planetRadioBtn.click();
     await searchPage.inputField.sendKeys(name);
     await searchPage.inputField.sendKeys(protractor.Key.ENTER);
@@ -28,7 +28,7 @@ When('I search for planet {string} and hit enter', { timeout: 60 * 1000 }, async
     await browser.sleep(2000);
 });
 
-When('I leave the search-box filled and use it to search for a planet', { timeout: 60 * 1000 }, async () => {
+When('I leave the search-box filled and use it to search for a planet', { timeout: 60 * 1000 }, async function() {
     await searchPage.planetRadioBtn.click();
     await searchPage.searchBtn.click();  
     await browser.sleep(2000);
@@ -48,7 +48,7 @@ Then('I see this/these planet details', { timeout: 60 * 1000 }, async function(e
     }
 });
 
-Then('the details for {int} planet(s) is/are shown', { timeout: 60 * 1000 }, async (numberOfPlanets:number) => {
+Then('the details for {int} planet(s) is/are shown', { timeout: 60 * 1000 }, async function(numberOfPlanets:number) {
     await expect(searchPage.planets).to.eventually.have.length(numberOfPlanets);
 });
 

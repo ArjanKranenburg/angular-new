@@ -14,7 +14,7 @@ BeforeAll(async function(){
     searchPage = new SearchFormPage();
 });
 
-When('I search for character {string}', { timeout: 60 * 1000 }, async (name: string) => {
+When('I search for character {string}', { timeout: 60 * 1000 }, async function (name: string) {
     await searchPage.searchForCharacter(name);
     
     await browser.sleep(2000);
@@ -35,6 +35,6 @@ Then('I see these personal details', { timeout: 60 * 1000 }, async function(expe
     }
 });
 
-Then('the details for {int} character(s) is/are shown', { timeout: 60 * 1000 }, async (numberOfCharacters:number) => {
+Then('the details for {int} character(s) is/are shown', { timeout: 60 * 1000 }, async function(numberOfCharacters:number) {
     await expect(searchPage.characters).to.eventually.have.length(numberOfCharacters);
 });
