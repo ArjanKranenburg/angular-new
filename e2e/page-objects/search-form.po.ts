@@ -1,92 +1,106 @@
 import { browser, by, element, ElementFinder } from 'protractor';
 
 export class SearchFormPage {
-  async navigateTo(): Promise<unknown> {
-      return browser.get('http://localhost:4401/');
-  }
+    async navigateTo(): Promise<unknown> {
+        return browser.get('http://localhost:4401/');
+    }
 
-  async searchForCharacter( searchText: string) {
-      this.characterRadioBtn.click();
-      this.inputField.clear()
-      this.inputField.sendKeys(searchText);
-      this.searchBtn.click();  
-  }
+    async searchForCharacter( searchText: string) {
+        this.characterRadioBtn.click();
+        this.inputField.clear()
+        this.inputField.sendKeys(searchText);
+        this.searchBtn.click();  
+    }
 
-  async searchForPlanet( searchText: string) {
-      this.planetRadioBtn.click();
-      this.inputField.clear()
-      this.inputField.sendKeys(searchText);
-      this.searchBtn.click();  
-  }
+    async searchForPlanet( searchText: string) {
+        this.planetRadioBtn.click();
+        this.inputField.clear()
+        this.inputField.sendKeys(searchText);
+        this.searchBtn.click();  
+    }
 
-  // Page fields
-  get searchBtn() {
-      return element(by.css('button'));
-  }
-  get inputField() {
-      return element(by.id('query'));
-  }
-  get characterRadioBtn() {
-      return element(by.id('people'));
-  }
-  get planetRadioBtn() {
-      return element(by.id('planets'));
-  }
+    // Page fields
+    get searchBtn() {
+        return element(by.css('button'));
+    }
+    get inputField() {
+        return element(by.id('query'));
+    }
+    get characterRadioBtn() {
+        return element(by.id('people'));
+    }
+    get planetRadioBtn() {
+        return element(by.id('planets'));
+    }
 
-  // Characters
-  get characters() {
-    return element.all(by.css('app-character'));
-  }
+    // Characters
+    get characters() {
+      return element.all(by.css('app-character'));
+    }
 
-  get firstCharacter() {
-      return this.characters.first();
-  }
+    character(index:number) {
+        return this.characters.get(index);
+    }
 
-  get firstCharacterGender() {
-      return this.getDetailValue(this.getDetailItem(this.firstCharacter, 0));
-  }
-  get firstCharacterBirthYear() {
-    return this.getDetailValue(this.getDetailItem(this.firstCharacter, 1));
-  }
-  get firstCharacterEyeColor() {
-    return this.getDetailValue(this.getDetailItem(this.firstCharacter, 2));
-  }
-  get firstCharacterSkinColor() {
-    return this.getDetailValue(this.getDetailItem(this.firstCharacter, 3));
-  }
+    characterName(index:number) {
+        return this.character(index).element(by.css('h6')).getAttribute('innerText');
+    }
 
-  // Planets
-  get planets() {
-    return element.all(by.css('app-planet'));
-  }
+    characterGender(index:number) {
+        return this.getDetailValue(this.getDetailItem(this.characters.get(index), 0));
+    }
 
-  get firstPlanet() {
-    return this.planets.first();
-  }
+    characterBirthYear(index:number) {
+       return this.getDetailValue(this.getDetailItem(this.characters.get(index), 1));
+    }
 
-  get firstPlanetPopulation() {
-      return this.getDetailValue(this.getDetailItem(this.firstPlanet, 0));
-  }
-  get firstPlanetClimate() {
-    return this.getDetailValue(this.getDetailItem(this.firstPlanet, 1));
-  }
-  get firstPlanetGravity() {
-    return this.getDetailValue(this.getDetailItem(this.firstPlanet, 2));
-  }
+    characterEyeColor(index:number) {
+        return this.getDetailValue(this.getDetailItem(this.characters.get(index), 2));
+    }
+
+    characterSkinColor(index:number) {
+        return this.getDetailValue(this.getDetailItem(this.characters.get(index), 3));
+    }
 
 
-  // General
-  getDetailItem(resultElement:ElementFinder, detailItemNr:number) {
-    return resultElement.all(by.css('div.row')).get(detailItemNr);
-  }
+    // Planets
+    get planets() {
+      return element.all(by.css('app-planet'));
+    }
 
-  getDetailValue(detailItemElement:ElementFinder) {
-    return detailItemElement
-      .element(by.css('div:nth-child(2)'))
-      .getAttribute('innerText');
-  }
+    planet(index:number) {
+        return this.planets.get(index);
+    }
 
-  get errorMessage() {
-    return element.all(by.css('div.col > div')).first().getAttribute('innerText');
-  }
+    planetName(index:number) {
+        return this.planet(index).element(by.css('h6')).getAttribute('innerText');
+    }
+
+    planetPopulation(index:number) {
+        return this.getDetailValue(this.getDetailItem(this.planet(index), 0));
+    }
+
+    planetClimate(index:number) {
+      return this.getDetailValue(this.getDetailItem(this.planet(index), 1));
+    }
+
+    planetGravity(index:number) {
+      return this.getDetailValue(this.getDetailItem(this.planet(index), 2));
+    }
+
+
+    // General
+    getDetailItem(resultElement:ElementFinder, detailItemNr:number) {
+      return resultElement.all(by.css('div.row')).get(detailItemNr);
+    }
+
+    getDetailValue(detailItemElement:ElementFinder) {
+      return detailItemElement
+        .element(by.css('div:nth-child(2)'))
+        .getAttribute('innerText');
+    }
+
+    get errorMessage() {
+      return element.all(by.css('div.col > div')).first().getAttribute('innerText');
+    }
 }
